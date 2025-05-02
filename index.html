@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PH Tube</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .active{
+            background-color: #FF1F3D;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="w-11/12 mx-auto flex items-center justify-between border-b-2 border-[#17171720]  py-5">
+            <div class="logo">
+                <img class="w-[120px]" src="Logo.png" alt="">
+            </div>
+            <div class="sort">
+                <button class="btn bg-gray-300">Sort By View</button>
+            </div>
+            <div class="blogs">
+                <button class="btn bg-[#FF1F3D] text-white">Blogs</button>
+            </div>
+        </nav>
+    </header>
+    <nav id="category-container" class="flex py-5 justify-center gap-5">
+        <div><button id="btn-all" onclick="loadViodes()" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">ALL</button></div>
+    </nav>
+
+    <section id="video-container" class="w-11/12 mx-auto grid grid-cols-1 lg:grid-cols-4 gap-5">
+        
+    </section>
+
+    <script src="./script/index.js"></script>
+</body>
+
+</html>
