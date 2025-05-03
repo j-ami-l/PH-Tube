@@ -12,8 +12,8 @@ const loadCatergoris = () => {
         .catch(err => console.log(err))
 }
 
-const loadViodes = () => {
-    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+const loadViodes = (searchText="") => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
         .then(res => res.json())
         .then(data => {
             displayVideos(data.videos)
@@ -23,6 +23,7 @@ const loadViodes = () => {
         })
         .catch(err => console.log(err))
 }
+
 
 const loadCategoryVideos = (id) => {
     const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
@@ -38,6 +39,47 @@ const loadCategoryVideos = (id) => {
 
 }
 
+
+const loadVideodetails = (videoId) => {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`
+    fetch(url).then(res=>res.json()).then(data=>{
+        displayVideoDetails(data.video)
+    })
+} 
+
+
+
+
+const displayVideoDetails = (video) => {
+    document.getElementById("video_details").showModal();
+    const detailsContainer = document.getElementById("detials-container")
+
+    detailsContainer.innerHTML =
+    `
+    <div class="card bg-base-100 image-full  shadow-sm">
+    <figure>
+    <img class ="w-full h-[150px] object-cover"
+      src="${video.thumbnail}"
+      alt="Shoes" />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">${video.title}</h2>
+        <p>${video.description}</p>
+    <div class="card-actions justify-end">
+      
+    </div>
+    </div>
+    </div>
+    <div class="flex items-center gap-4 ml-3 mt-5">
+    <div class="avatar">
+        <div class="ring-primary ring-offset-base-100 w-6 rounded-full ring-2 ring-offset-2">
+            <img src="${video.authors[0].profile_picture}" />
+        </div>
+    </div>
+    <p class="text-sm font-semibold flex items-center gap-1">${video.authors[0].profile_name}
+    </div>
+    `
+}
 
 
 // {category_id: '1001', category: 'Music'}
@@ -74,11 +116,11 @@ const displayVideos = (videos) => {
 
         const videoCard = document.createElement("div")
         videoCard.innerHTML = `
-        <div class="card bg-base-100 ">
+        <div class="card bg-base-100 m-5 ">
             <figure class="relative">
                 <img class="w-full h-[200px] object-cover"
                     src="${video.thumbnail}"
-                    alt="Shoes" />
+                    alt="thumblain" />
                     <span class="absolute text-white bottom-2 right-2 bg-black px-2 text-sm rounded">3hrs 56min 3sec ago</span>
             </figure>
             <div class=" flex gap-3 py-5">
@@ -90,13 +132,14 @@ const displayVideos = (videos) => {
                       </div>
                 </div>
                 <div class="intro">
-                    <h2 class="text-sm font-semibold">Colors of the Wind</h2>
+                    <h2 class="text-sm font-semibold">${video.title}</h2>
                     <p class="text-sm text-gray-400 flex items-center gap-1">${video.authors[0].profile_name}
-                        <img class="w-5 h-5" src="https://img.icons8.com/?size=48&id=98A4yZTt9abw&format=png" alt="">
+                    <img id="verified-icon" class="w-5 h-5 ${video.authors[0].verified == true ? `block`:`hidden`} " src="https://img.icons8.com/?size=48&id=98A4yZTt9abw&format=png" alt="">
                     </p>
                     <p class="text-sm text-gray-400 ">${video.others.views} views</p>
                 </div>
             </div>
+            <button onclick="loadVideodetails('${video.video_id}')" class="btn btn-block">Show Details</button>
         </div>
         `
 
@@ -104,7 +147,10 @@ const displayVideos = (videos) => {
     });
 }
 
-
+document.getElementById("search-input").addEventListener("keyup", (event)=>{
+    const input = event.target.value;
+    loadViodes(input)
+})
 
 
 loadCatergoris()
